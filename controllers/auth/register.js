@@ -4,7 +4,8 @@ const { User } = require('../../models/user')
 const gravatar = require('gravatar')
 
 //* for checking email in sendgrid
-const { nanoid } = require('nanoid')
+const { v4: uuidv4 } = require('uuid')
+// const { nanoid } = require('nanoid')
 const { BASE_URL } = process.env
 
 const register = async (req, res) => {
@@ -20,7 +21,7 @@ const register = async (req, res) => {
 	const hashPassword = await bcrypt.hash(password, 10)
 	const avatarURL = gravatar.url(email)
 	//* при добавлении в базу записываем код подтверждения, а поле verify будет fals
-	const verificationToken = nanoid
+	const verificationToken = uuidv4()
 	const result = await User.create({
 		name,
 		email,
